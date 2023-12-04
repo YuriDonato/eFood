@@ -1,5 +1,5 @@
-import { Restaurant } from '../../models/Restaurant'
 import CardMenu from '../CardMenu'
+import Cart from '../Cart'
 import { ListagemContainer } from './style'
 
 type Props = {
@@ -12,6 +12,7 @@ const ListagemPerfil = ({ restaurant }: Props) => {
       {restaurant.cardapio.map((item, index) => (
         <CardMenu key={index + 1} prato={item} />
       ))}
+      <Cart />
     </ListagemContainer>
   )
 }

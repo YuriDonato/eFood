@@ -1,17 +1,16 @@
 import * as S from './style'
 
-import estrela from '../../assets/images/estrela.svg'
-import { Restaurant } from '../../models/Restaurant'
+import rateIcon from '../../assets/images/estrela.svg'
 
-import { getDescricao } from '../CardMenu'
+import { getDescription } from '../../utils'
 
 type Props = {
   restaurant: Restaurant
 }
 
 const ListagemCard = ({ restaurant }: Props) => {
-  function UpperCase(texto: string) {
-    const newText = texto.charAt(0).toUpperCase() + texto.slice(1)
+  function UpperCase(text: string) {
+    const newText = text.charAt(0).toUpperCase() + text.slice(1)
     return newText
   }
 
@@ -26,11 +25,11 @@ const ListagemCard = ({ restaurant }: Props) => {
           <S.CardTitle>{restaurant.titulo}</S.CardTitle>
           <div>
             <S.CardRate>{restaurant.avaliacao}</S.CardRate>
-            <img src={estrela} alt="estrela" />
+            <img src={rateIcon} alt="estrela" />
           </div>
         </div>
         <S.CardDescription>
-          {getDescricao(restaurant.descricao)}
+          {getDescription(restaurant.descricao)}
         </S.CardDescription>
         <S.CardButton to={`/restaurant/${restaurant.id}`}>
           Saiba mais

@@ -1,13 +1,18 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
+
+type ButtonProps = {
+  topPadding?: string
+  bottomPadding?: string
+}
 
 export const Container = styled.div`
-  width: 320px;
+  width: 100%;
   height: 346px;
   display: block;
-  color: ${cores.begeEscuro};
+  color: ${colors.darkBrown};
   padding: 8px 8px 50px 8px;
-  background-color: ${cores.vermelho};
+  background-color: ${colors.red};
 
   &:nth-child(2) {
     justify-self: center;
@@ -27,7 +32,7 @@ export const Container = styled.div`
 `
 
 export const Image = styled.img`
-  width: 304px;
+  width: 100%;
   height: 167px;
   flex-shrink: 0;
 `
@@ -43,14 +48,24 @@ export const Description = styled.p`
   line-height: 22px;
 `
 
-export const Button = styled.button`
+const checkPadding = (top: string | undefined, bottom: string | undefined) => {
+  if (!top && !bottom) {
+    return 'padding: 4px 0px'
+  } else if (top && !bottom) {
+    return `padding-top: ${top}`
+  } else if (!top && bottom) {
+    return `padding-bottom: ${bottom}`
+  }
+}
+
+export const Button = styled.button<ButtonProps>`
   text-decoration: none;
-  background-color: ${cores.begeEscuro};
+  background-color: ${colors.darkBrown};
   width: 100%;
   margin-top: 8px;
-  padding: 4px 0px;
+  ${(p) => checkPadding(p.topPadding, p.bottomPadding)};
 
-  color: ${cores.vermelho};
+  color: ${colors.red};
   text-align: center;
   font-size: 14px;
   font-weight: bold;
@@ -86,8 +101,8 @@ export const Modal = styled.div`
 export const ModalContent = styled.div`
   display: flex;
   z-index: 1;
-  background-color: ${cores.vermelho};
-  color: ${cores.begeEscuro};
+  background-color: ${colors.red};
+  color: ${colors.darkBrown};
   padding: 0 0px 32px 32px;
   max-width: 1024px;
   width: 100%;

@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 
 export const FooterContainer = styled.div`
   width: 100%;
   height: 320px;
-  background-color: ${cores.begeEscuro};
+  background-color: ${colors.darkBrown};
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -19,7 +19,7 @@ export const FooterLogo = styled.img`
 export const FooterText = styled.p`
   padding-top: 80px;
   margin-bottom: 40px;
-  color: ${cores.vermelho};
+  color: ${colors.red};
   text-align: center;
   font-size: 10px;
   width: 50%;

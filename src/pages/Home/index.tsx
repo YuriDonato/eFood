@@ -5,13 +5,13 @@ import Listagem from '../../components/Listagem'
 import { useGetRestaurantsQuery } from '../../services/api'
 
 const Home = () => {
-  const { data: restaurantes } = useGetRestaurantsQuery()
+  const { data: restaurants } = useGetRestaurantsQuery()
 
-  if (restaurantes) {
+  if (restaurants) {
     return (
       <div>
         <Header page="home" />
-        <Listagem restaurants={restaurantes} />
+        <Listagem restaurants={restaurants} />
         <Footer />
       </div>
     )

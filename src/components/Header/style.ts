@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 import pattern from '../../assets/images/pattern.svg'
 import { Props } from '.'
 import { Link } from 'react-router-dom'
@@ -11,7 +11,7 @@ type PropLink = {
 export const HeaderBar = styled.div<Props>`
   width: 100%;
   height: ${(props) => (props.page === 'home' ? '384px' : '186px;')};
-  background-color: ${cores.begeEscuro};
+  background-color: ${colors.darkBrown};
   background-image: url(${pattern});
   background-repeat: repeat-y;
   display: flex;
@@ -46,7 +46,7 @@ export const HeaderLogo = styled.img<Props>`
 `
 
 export const HeaderText = styled.h1<Props>`
-  color: ${cores.vermelho};
+  color: ${colors.red};
   text-align: center;
   font-size: 36px;
   line-height: normal;
@@ -56,7 +56,7 @@ export const HeaderText = styled.h1<Props>`
 `
 
 export const HeaderLink = styled(Link)<PropLink>`
-  color: ${cores.vermelho};
+  color: ${colors.red};
   font-size: 18px;
   font-weight: bold;
   text-align: ${(p) => p.align};

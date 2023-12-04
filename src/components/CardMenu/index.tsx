@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Prato } from '../../models/Restaurant'
-import close from '../../assets/images/close.png'
+import closeIcon from '../../assets/images/close.png'
 import * as S from './style'
-import Cart from '../Cart'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { add, open } from '../../store/reducers/cart'
+import { parsePrice, getDescription } from '../../utils'
+import { RootReducer } from '../../store'
 
 type Props = {
   prato: Prato
@@ -14,20 +14,6 @@ type Props = {
 type ModalState = {
   isVisible: boolean
   item: Prato
-}
-
-export const getDescricao = (descricao: string) => {
-  if (descricao.length > 168) {
-    return descricao.slice(0, 165) + '...'
-  }
-  return descricao
-}
-
-export const formataPreco = (preco = 0) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(preco)
 }
 
 const CardMenu = ({ prato }: Props) => {
@@ -39,7 +25,8 @@ const CardMenu = ({ prato }: Props) => {
       id: 0,
       nome: '',
       porcao: '',
-      preco: 0
+      preco: 0,
+      orderID: 0
     }
   })
 
@@ -52,16 +39,21 @@ const CardMenu = ({ prato }: Props) => {
         id: 0,
         nome: '',
         porcao: '',
-        preco: 0
+        preco: 0,
+        orderID: 0
       }
     })
   }
 
   const dispatch = useDispatch()
 
+  const { items } = useSelector((state: RootReducer) => state.cart)
+
   const addToCart = () => {
-    dispatch(add(prato))
-    dispatch(open())
+    const pratoWithOrderID = { ...prato }
+    pratoWithOrderID.orderID = items.length
+    dispatch(add(pratoWithOrderID))
+    dispatch(open('checkout'))
     closeModal()
   }
 
@@ -70,7 +62,7 @@ const CardMenu = ({ prato }: Props) => {
       <S.Container className="item">
         <S.Image src={prato.foto} alt="" />
         <S.Title>{prato.nome}</S.Title>
-        <S.Description>{getDescricao(prato.descricao)}</S.Description>
+        <S.Description>{getDescription(prato.descricao)}</S.Description>
         <S.Button
           onClick={() => {
             setModal({ isVisible: true, item: prato })
@@ -85,7 +77,11 @@ const CardMenu = ({ prato }: Props) => {
             <img src={modal.item.foto} alt="" />
             <div className="infoContainer">
               <div className="exitButton">
-                <img onClick={closeModal} src={close} alt="icone de fechar" />
+                <img
+                  onClick={closeModal}
+                  src={closeIcon}
+                  alt="icone de fechar"
+                />
               </div>
               <div className="modalInfo">
                 <S.ModalCardTitle>{modal.item.nome}</S.ModalCardTitle>
@@ -93,7 +89,7 @@ const CardMenu = ({ prato }: Props) => {
                 <S.ModalCardText>{`Serve ${modal.item.porcao}`}</S.ModalCardText>
                 <S.ModalCardButton
                   onClick={addToCart}
-                >{`Adicione ao carrinho - ${formataPreco(
+                >{`Adicione ao carrinho - ${parsePrice(
                   modal.item.preco
                 )}`}</S.ModalCardButton>
               </div>
@@ -102,7 +98,6 @@ const CardMenu = ({ prato }: Props) => {
         </S.ModalContent>
         <div className="overlay" onClick={closeModal}></div>
       </S.Modal>
-      <Cart />
     </>
   )
 }

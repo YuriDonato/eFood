@@ -1,13 +1,14 @@
-export interface Prato {
+declare interface Prato {
   foto: string
   preco: number
   id: number
   nome: string
   descricao: string
   porcao: string
+  orderID: number
 }
 
-export interface Restaurant {
+declare interface Restaurant {
   id: number
   titulo: string
   destacado: boolean

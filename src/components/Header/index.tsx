@@ -15,7 +15,7 @@ const Header = ({ page }: Props) => {
   const { items } = useSelector((state: RootReducer) => state.cart)
 
   const openCart = () => {
-    dispatch(open())
+    dispatch(open('checkout'))
   }
 
   return (

@@ -1,4 +1,3 @@
-import { Restaurant } from '../../models/Restaurant'
 import ListagemCard from '../Card'
 import { ListagemContainer } from './style'
 

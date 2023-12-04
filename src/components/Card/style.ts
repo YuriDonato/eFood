@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 import { Link } from 'react-router-dom'
 
 type Props = {
@@ -8,9 +8,8 @@ type Props = {
 
 export const Card = styled.div`
   width: 472px;
-  height: 398px;
   flex-shrink: 0;
-  background-color: ${cores.branca};
+  background-color: ${colors.white};
 `
 export const CardImg = styled.div<Props>`
   background-image: url(${(props) => props.imgurl});
@@ -24,8 +23,8 @@ export const CardImg = styled.div<Props>`
 export const CardTag = styled.span`
   width: max-content;
   height: max-content;
-  background-color: ${cores.vermelho};
-  color: ${cores.branca};
+  background-color: ${colors.red};
+  color: ${colors.white};
   font-size: 12px;
   font-weight: bold;
   line-height: normal;
@@ -37,10 +36,10 @@ export const CardTag = styled.span`
 
 export const CardContainer = styled.div`
   padding: 8px;
-  color: ${cores.vermelho};
-  border-right: 1px solid ${cores.vermelho};
-  border-bottom: 1px solid ${cores.vermelho};
-  border-left: 1px solid ${cores.vermelho};
+  color: ${colors.red};
+  border-right: 1px solid ${colors.red};
+  border-bottom: 1px solid ${colors.red};
+  border-left: 1px solid ${colors.red};
 
   .containerHeader {
     display: flex;
@@ -83,8 +82,8 @@ export const CardButton = styled(Link)`
 
   width: max-content;
   height: max-content;
-  background-color: ${cores.vermelho};
-  color: ${cores.branca};
+  background-color: ${colors.red};
+  color: ${colors.white};
   font-weight: bold;
   line-height: normal;
   text-align: center;
