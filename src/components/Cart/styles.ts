@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import InputMask from 'react-input-mask'
 
+import { colors } from '../../styles'
 import { Button } from '../CardMenu/style'
 
 type InputGroupProps = {
@@ -60,8 +61,8 @@ export const InputGroup = styled.div<InputGroupProps>`
     width: 100%;
   }
 
-  &.error {
-    border: 10px solid red;
+  .error {
+    border: 4px solid red;
   }
 `
 
@@ -154,6 +155,10 @@ export const Label = styled.label`
 `
 
 export const Input = styled.input`
+  background-color: ${colors.lightBrown};
+`
+
+export const InputMasks = styled(InputMask)`
   background-color: ${colors.lightBrown};
 `
 

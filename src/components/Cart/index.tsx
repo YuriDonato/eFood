@@ -1,18 +1,20 @@
-import { RootReducer } from '../../store'
-import * as S from './styles'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
+
+import { parsePrice } from '../../utils'
+import { usePurchaseMutation } from '../../services/api'
 import { clear, close, open, remove } from '../../store/reducers/cart'
+import { RootReducer } from '../../store'
+
+import * as S from './styles'
 import { Button } from '../CardMenu/style'
 import trashcanIcon from '../../assets/images/lixeira.png'
-import { parsePrice } from '../../utils'
-import { useEffect, useState } from 'react'
-import { usePurchaseMutation } from '../../services/api'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-  const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
+  const [purchase, { data, isSuccess }] = usePurchaseMutation()
   const dispatch = useDispatch()
 
   const [deliveryAble, setDeliveryAble] = useState(true)
@@ -44,20 +46,26 @@ const Cart = () => {
       expiresYear: '',
       cardCode: ''
     },
-    // validationSchema: Yup.object({
-    //   fullName: Yup.string().required('O campo é obrigatorio'),
-    //   address: Yup.string().required('O campo é obrigatorio'),
-    //   city: Yup.string().required('O campo é obrigatorio'),
-    //   cep: Yup.string().required('O campo é obrigatorio'),
-    //   addressNumber: Yup.string().required('O campo é obrigatorio'),
-    //   complement: Yup.string().required('O campo é obrigatorio'),
+    validationSchema: Yup.object({
+      fullName: Yup.string()
+        .min(5, 'O nome precisa ter pelo menos 5 caracteres')
+        .required('O campo é obrigatorio'),
+      address: Yup.string().required('O campo é obrigatorio'),
+      city: Yup.string().required('O campo é obrigatorio'),
+      zipCode: Yup.string()
+        .min(8, 'O campo precisa 7 caracteres')
+        .required('O campo é obrigatorio'),
+      addressNumber: Yup.string().required('O campo é obrigatorio'),
+      complement: Yup.string(),
 
-    //   cardDisplayName: Yup.string().required('O campo é obrigatorio'),
-    //   cardNumber: Yup.string().required('O campo é obrigatorio'),
-    //   expiresMonth: Yup.string().required('O campo é obrigatorio'),
-    //   expiresYear: Yup.string().required('O campo é obrigatorio'),
-    //   cardCode: Yup.string().required('O campo é obrigatorio')
-    // }),
+      cardDisplayName: Yup.string()
+        .min(5, 'O nome precisa ter pelo menos 5 caracteres')
+        .required('O campo é obrigatorio'),
+      cardNumber: Yup.string().required('O campo é obrigatorio'),
+      expiresMonth: Yup.string().required('O campo é obrigatorio'),
+      expiresYear: Yup.string().required('O campo é obrigatorio'),
+      cardCode: Yup.string().required('O campo é obrigatorio')
+    }),
     onSubmit: (values) => {
       purchase({
         delivery: {
@@ -133,7 +141,7 @@ const Cart = () => {
         fullName.length > 0 &&
         address.length > 0 &&
         city.length > 0 &&
-        zipCode.length > 0 &&
+        zipCode.length >= 8 &&
         addressNumber.length > 0
       ) {
         setDeliveryAble(false)
@@ -258,7 +266,7 @@ const Cart = () => {
           <S.Row>
             <S.InputGroup>
               <S.Label htmlFor="zipCode">CEP</S.Label>
-              <S.Input
+              <S.InputMasks
                 type="text"
                 name="zipCode"
                 value={form.values.zipCode}
@@ -266,6 +274,7 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 id="zipCode"
                 className={checkInputHasError('zipCode') ? 'error' : ''}
+                mask="99999-99"
               />
             </S.InputGroup>
             <S.InputGroup>
@@ -330,7 +339,7 @@ const Cart = () => {
           <S.Row>
             <S.InputGroup>
               <S.Label htmlFor="cardNumber">Número do cartão</S.Label>
-              <S.Input
+              <S.InputMasks
                 type="text"
                 name="cardNumber"
                 value={form.values.cardNumber}
@@ -338,11 +347,12 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 id="cardNumber"
                 className={checkInputHasError('cardNumber') ? 'error' : ''}
+                mask="9999 9999 9999 9999"
               />
             </S.InputGroup>
             <S.InputGroup>
               <S.Label htmlFor="cardCode">CVV</S.Label>
-              <S.Input
+              <S.InputMasks
                 type="text"
                 name="cardCode"
                 value={form.values.cardCode}
@@ -350,13 +360,14 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 id="cardCode"
                 className={checkInputHasError('cardCode') ? 'error' : ''}
+                mask="999"
               />
             </S.InputGroup>
           </S.Row>
           <S.Row>
             <S.InputGroup>
               <S.Label htmlFor="expiresMonth">Mês de vencimento</S.Label>
-              <S.Input
+              <S.InputMasks
                 type="text"
                 name="expiresMonth"
                 value={form.values.expiresMonth}
@@ -364,11 +375,12 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 id="expiresMonth"
                 className={checkInputHasError('expiresMonth') ? 'error' : ''}
+                mask="99"
               />
             </S.InputGroup>
             <S.InputGroup>
               <S.Label htmlFor="expiresYear">Ano de vencimento</S.Label>
-              <S.Input
+              <S.InputMasks
                 type="text"
                 name="expiresYear"
                 value={form.values.expiresYear}
@@ -376,6 +388,7 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 id="expiresYear"
                 className={checkInputHasError('expiresYear') ? 'error' : ''}
+                mask="99"
               />
             </S.InputGroup>
           </S.Row>
